@@ -13,32 +13,35 @@ const userChanges = {
 };
 
 
-let userId;
-
 describe("user-service.js unit tests", function () {
     
-
-    beforeEach(async () => {
+    beforeAll(async () => {
         return await connect();
-    });
-
-    test("should save user and the user must have an id", async () => {
-        const savedUser = await userService.save(userData);
-        
-        expect(savedUser).toHaveProperty("id");
-
-        userId = savedUser.id;
-    });
-
-    test("should update user changing his email", async () => {
-        const updatedUser = await userService.update(userId, {...userChanges});
-
-        expect(updatedUser).not.toBe(userData);
-        expect(updatedUser.id).toBe(userId);
-        expect(updatedUser.email).toBe(userChanges.email);
     });
 
     afterAll(() => {
         return disconnect();
+    });
+
+    test("should save user and the user must have an _id", async () => {
+        const savedUser = await userService.save(userData);
+        
+        expect(savedUser).toHaveProperty("_id");
+    });
+
+    test("should update a saved user changing his email", async () => {
+        const savedUser = await userService.save(userData);
+        const updatedUser = await userService.update(savedUser._id, {...userChanges});
+
+        expect(updatedUser._id).toStrictEqual(savedUser._id);
+        expect(updatedUser.email).toBe(userChanges.email);
+    });
+    
+    test("should delete a saved user", async () => {
+        const savedUser = await userService.save(userData);
+        const deletedUser  = await userService.remove(savedUser._id);
+
+        expect(deletedUser).toMatchObject(savedUser);
+        expect(deletedUser).toHaveProperty("_id");
     });
 });

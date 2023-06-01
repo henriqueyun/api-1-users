@@ -1,8 +1,9 @@
 const { UserModel } = require("../db");
 
 async function save(user) {
-    const userDoc = new UserModel(user);
-    return await userDoc.save();
+    const newUser = new UserModel(user);
+    await newUser.save();
+    return newUser._doc;
     
 }
 
@@ -11,4 +12,10 @@ async function update(id, {...userFields}) {
     
 }
 
-module.exports = { save, update };
+async function remove(id) {
+    const removedUser = await UserModel.findById(id);
+    await UserModel.deleteOne({ id });
+    return removedUser._doc;
+}
+
+module.exports = { save, update, remove };
