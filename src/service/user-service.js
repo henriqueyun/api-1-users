@@ -1,12 +1,14 @@
-let id = 0
+const { UserModel } = require("../db");
 
-function save({name, email, phone}) {
-    return {
-        name,
-        email,
-        phone,
-        id: id++
-    }
+async function save(user) {
+    const userDoc = new UserModel(user);
+    return await userDoc.save();
+    
 }
 
-module.exports = { save }
+async function update(id, {...userFields}) {
+    return await UserModel.findOneAndUpdate({ _id: id }, {...userFields}, { new: true });
+    
+}
+
+module.exports = { save, update };
