@@ -7,6 +7,11 @@ async function save(user) {
     
 }
 
+async function find(id) {
+    const removedUser = await UserModel.findById(id);
+    return removedUser._doc;
+}
+
 async function update(id, {...userFields}) {
     return await UserModel.findOneAndUpdate({ _id: id }, {...userFields}, { new: true });
     
@@ -18,4 +23,4 @@ async function remove(id) {
     return removedUser._doc;
 }
 
-module.exports = { save, update, remove };
+module.exports = { save, find, update, remove };

@@ -29,6 +29,13 @@ describe("user-service.js unit tests", function () {
         expect(savedUser).toHaveProperty("_id");
     });
 
+    test("should find a saved user", async () => {
+        const savedUser = await userService.save(userData);
+        const foundUser = await userService.find(savedUser._id);
+
+        expect(foundUser).toStrictEqual(savedUser);
+    });
+
     test("should update a saved user changing his email", async () => {
         const savedUser = await userService.save(userData);
         const updatedUser = await userService.update(savedUser._id, {...userChanges});
