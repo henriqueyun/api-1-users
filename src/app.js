@@ -3,7 +3,7 @@ const app = express();
 
 app.use(express.json());
 
-const router = require("./router");
+const router = require("./controller/router");
 
 app.use(router);
 

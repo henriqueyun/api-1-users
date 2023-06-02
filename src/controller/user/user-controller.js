@@ -1,4 +1,4 @@
-const userService = require("../service/user-service");
+const userService = require("../../service/user/user-service");
 const userValidator = require("./user-validator");
 
 async function save(req, res) {

@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
-const { connect, disconnect } = require("../db");
+const { connect, disconnect } = require("../../db");
 
 const request = require("supertest");
-const app = require("../app");
+const app = require("../../app");
 
 const userData = {
     name: "João da Silva",
