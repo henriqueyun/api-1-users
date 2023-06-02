@@ -20,6 +20,10 @@
         {
             "name": "user",
             "description": "Just users, you know"
+        },
+        {
+            "name": "health",
+            "description": "Endpoint to check API health status"
         }
     ],
     "servers": [
@@ -277,6 +281,28 @@
                     }
                 }
             }
+        },
+        "/health": {
+            "get": {
+                "tags": [
+                    "health"
+                ],
+                "summary": "Returns API health status",
+                "description": "Returns API health status",
+                "operationId": "healthCheck",
+                "responses": {
+                    "200": {
+                        "description": "The API health is OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HealthStatus"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -351,6 +377,15 @@
                     "message": {
                         "type": "string",
                         "example": "user not found"
+                    }
+                }
+            },
+            "HealthStatus": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "example": "health ok!"
                     }
                 }
             }
