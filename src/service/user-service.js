@@ -4,7 +4,7 @@ async function save(user) {
     const newUser = new UserModel(user);
     await newUser.save();
     return newUser._doc;
-    
+
 }
 
 async function find(id) {
@@ -14,13 +14,15 @@ async function find(id) {
     return foundUser._doc;
 }
 
-async function update(id, {...userFields}) {
-    return await UserModel.findOneAndUpdate({ _id: id }, {...userFields}, { new: true });
-    
+async function update(id, { ...userFields }) {
+    return await UserModel.findOneAndUpdate({ _id: id }, { ...userFields }, { new: true });
+
 }
 
 async function remove(id) {
     const removedUser = await UserModel.findById(id);
+    if (!removedUser)
+        return;
     await UserModel.deleteOne({ id });
     return removedUser._doc;
 }

@@ -15,9 +15,17 @@ const userChanges = {
     phone: 11987651234,
 };
 
+
 const invalidUserData = {
     name: "João da Silva",
     email: "joaodasilva@gmail.com"
+};
+
+const emptyUserChanges = {
+};
+
+const invalidUserChanges = {
+    age: 11
 };
 
 describe("user-controller unit tests", function () {
@@ -66,7 +74,7 @@ describe("user-controller unit tests", function () {
         expect(foundUserResponse.body._id).toBe(savedUserResponse.body._id);
     });
 
-    test("shouldn't save then find an user by a not existent valid _id", async () => {
+    test("shouldn't find an user because of a inexistent valid id", async () => {
         const id = new mongoose.mongo.ObjectId();
 
         const foundUserResponse = await request(app)
@@ -76,14 +84,14 @@ describe("user-controller unit tests", function () {
         expect(foundUserResponse.body.message).toBe("user not found");
     });
 
-    test("shouldn't save then find an user by a empty _id", async () => {
+    test("shouldn't find an user because of a invalid id", async () => {
         const id = undefined;
 
         const foundUserResponse = await request(app)
             .get(`/user/${id}`);
 
         expect(foundUserResponse.statusCode).toBe(400);
-        expect(foundUserResponse.body.message).toBe("user id should have 24 characters");
+        expect(foundUserResponse.body.errors.includes("user id should have 24 characters")).toBeTruthy();
     });
 
     test("should save then update an user", async () => {
@@ -100,6 +108,56 @@ describe("user-controller unit tests", function () {
         expect(updatedUserResponse.body.phone).toBe(userChanges.phone);
     });
 
+
+    test("shouldn't update an user because of a inexistent valid id", async () => {
+        const id = new mongoose.mongo.ObjectId();
+
+        const updatedUserResponse = await request(app)
+            .patch(`/user/${id}`)
+            .send({ ...userChanges });
+
+        expect(updatedUserResponse.statusCode).toBe(404);
+        expect(updatedUserResponse.body.message).toBe("user not found");
+    });
+
+    test("shouldn't update an user because of invalid id", async () => {
+        const id = null;
+
+        const updatedUserResponse = await request(app)
+            .patch(`/user/${id}`)
+            .send({ ...userChanges });
+
+        expect(updatedUserResponse.statusCode).toBe(400);
+        expect(updatedUserResponse.body.errors.includes("user id should have 24 characters")).toBeTruthy();
+    });
+
+
+    test("should save but not update an user because of empty user changes", async () => {
+        const savedUserResponse = await request(app)
+            .post("/user")
+            .send(userData);
+
+        const updatedUserResponse = await request(app)
+            .patch(`/user/${savedUserResponse.body._id}`)
+            .send({ ...emptyUserChanges });
+
+        expect(updatedUserResponse.statusCode).toBe(400);
+        expect(updatedUserResponse.body.errors.includes("user changes should not be empty")).toBeTruthy();
+    });
+
+    test("should save but not update an user because of invalid user changes", async () => {
+        const savedUserResponse = await request(app)
+            .post("/user")
+            .send(userData);
+
+        const updatedUserResponse = await request(app)
+            .patch(`/user/${savedUserResponse.body._id}`)
+            .send({ ...invalidUserChanges });
+
+        expect(updatedUserResponse.statusCode).toBe(400);
+        expect(updatedUserResponse.body.errors.includes("user changes should contains only user fields")).toBeTruthy();
+    });
+
     test("should save then delete an user", async () => {
         const savedUserResponse = await request(app)
             .post("/user")
@@ -110,5 +168,25 @@ describe("user-controller unit tests", function () {
 
         expect(deletedUserResponse.statusCode).toBe(200);
         expect(deletedUserResponse.body).toStrictEqual(savedUserResponse.body);
+    });
+
+    test("should save but not delete an user because of inexistent valid id", async () => {
+        const id = new mongoose.mongo.ObjectId();
+
+        const deletedUserResponse = await request(app)
+            .delete(`/user/${id}`);
+
+        expect(deletedUserResponse.statusCode).toBe(404);
+        expect(deletedUserResponse.body.message).toBe("user not found");
+    });
+
+    test("should save but not delete an user because of invalid id", async () => {
+        const id = null;
+
+        const deletedUserResponse = await request(app)
+            .delete(`/user/${id}`);
+
+        expect(deletedUserResponse.statusCode).toBe(400);
+        expect(deletedUserResponse.body.errors.includes("user id should have 24 characters")).toBeTruthy();
     });
 });
