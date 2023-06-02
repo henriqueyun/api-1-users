@@ -23,7 +23,7 @@ async function remove(id) {
     const removedUser = await UserModel.findById(id);
     if (!removedUser)
         return;
-    await UserModel.deleteOne({ id });
+    await UserModel.deleteOne({ _id: id });
     return removedUser._doc;
 }
 

@@ -166,8 +166,12 @@ describe("user-controller unit tests", function () {
         const deletedUserResponse = await request(app)
             .delete(`/user/${savedUserResponse.body._id}`);
 
+        const notFoundUserResponse = await request(app)
+            .get(`/user/${deletedUserResponse.body._id}`);
+
         expect(deletedUserResponse.statusCode).toBe(200);
         expect(deletedUserResponse.body).toStrictEqual(savedUserResponse.body);
+        expect(notFoundUserResponse.body.message).toBe("user not found");
     });
 
     test("should save but not delete an user because of inexistent valid id", async () => {
