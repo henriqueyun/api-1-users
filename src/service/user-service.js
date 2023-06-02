@@ -8,8 +8,10 @@ async function save(user) {
 }
 
 async function find(id) {
-    const removedUser = await UserModel.findById(id);
-    return removedUser._doc;
+    const foundUser = await UserModel.findById(id);
+    if (!foundUser)
+        return;
+    return foundUser._doc;
 }
 
 async function update(id, {...userFields}) {
