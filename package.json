@@ -7,8 +7,10 @@
   "author": "henriqueyun",
   "license": "MIT",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.1.3",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "swagger-ui-express": "^4.6.3"
   },
   "devDependencies": {
     "eslint": "^8.41.0",
