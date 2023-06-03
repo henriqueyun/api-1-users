@@ -12,9 +12,13 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 const { connect } = require("./db");
 
-connect().then(() => {
-    console.log("Connected to database");
-    app.listen(process.env.PORT, () => {
-        console.log("API listening at", process.env.PORT);
+connect()
+    .then(() => {
+        console.log("Connected to database");
+        app.listen(process.env.PORT, () => {
+            console.log("API listening at", process.env.PORT);
+        });
+    })
+    .catch(err => {
+        console.log("Error connecting to database:", err.message);
     });
-});

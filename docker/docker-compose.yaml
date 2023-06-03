@@ -6,7 +6,11 @@ services:
     restart: always
     ports:
       - 27017:27017
-      
+  users-1-api:
+    image: henriqueyun/users-1-api:latest
+    restart: always
+    ports:
+      - 8080:8080
   mongo-express:
     image: mongo-express
     restart: always
