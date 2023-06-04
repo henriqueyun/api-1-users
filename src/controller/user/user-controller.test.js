@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { MongoMemoryServer } = require("mongodb-memory-server");
 
 const { connect, disconnect } = require("../../db");
 
@@ -29,14 +30,6 @@ const invalidUserChanges = {
 };
 
 describe("user-controller unit tests", function () {
-    beforeAll(async () => {
-        return await connect();
-    });
-
-    afterAll(async () => {
-        return await disconnect();
-    });
-
     test("should save an user", async () => {
         const savedUserResponse = await request(app)
             .post("/user/")

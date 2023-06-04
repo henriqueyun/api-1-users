@@ -1,3 +1,5 @@
+const { MongoMemoryServer } = require("mongodb-memory-server");
+
 const { connect, disconnect } = require("../../db");
 
 const userService = require("./user-service");
@@ -14,15 +16,6 @@ const userChanges = {
 
 
 describe("user-service.js unit tests", function () {
-
-    beforeAll(async () => {
-        return await connect();
-    });
-
-    afterAll(() => {
-        return disconnect();
-    });
-
     test("should save user and the user must have an _id", async () => {
         const savedUser = await userService.save(userData);
 

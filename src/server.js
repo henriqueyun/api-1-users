@@ -12,7 +12,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 const { connect } = require("./db");
 
-connect()
+connect(process.env.DB_URL)
     .then(() => {
         console.log("Connected to database");
         app.listen(process.env.PORT, () => {
