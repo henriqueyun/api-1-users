@@ -7,7 +7,7 @@ First of all, make a copy of `.env.example` in [config folder](./config/) and na
 
 ## Running
 
-Make sure that you has completed the environment, then:
+Make sure that you have completed the environment, then:
 
 1. Build docker image with:
 ```sh
@@ -25,7 +25,7 @@ docker compose -f docker/docker-compose.yaml up
 
 ## Tests
 
-There are some tests built with [Jest](jestjs.io), you could run it with `yarn install && yarn test`.
+There are some tests built with [Jest](jestjs.io), you can run it with `yarn install && yarn test`.
 
 The tests use Mongo Memory Server to run independently of a MongoDB server. There is [Github Action](./.github/workflows/action.yml) running them on main branch push/pull_request.
 
