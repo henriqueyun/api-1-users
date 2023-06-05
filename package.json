@@ -1,7 +1,7 @@
 {
   "name": "api-1-users",
   "version": "1.0.0",
-  "description": "Realiza um cadastro inicial de um possível cliente e armazena em um banco de dados noSQL.",
+  "description": "It performs an initial registration of a possible client and stores it in a noSQL database.",
   "main": "index.js",
   "repository": "https://github.com/henriqueyun/api-1-users",
   "author": "henriqueyun",
